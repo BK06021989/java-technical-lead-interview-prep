@@ -1,4 +1,4 @@
-package com.java.java_coding;
+package com.java.java_string;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
