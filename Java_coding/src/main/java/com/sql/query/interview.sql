@@ -30,3 +30,22 @@ WHERE id NOT IN (
     FROM employees
     GROUP BY name, email, salary
 );
+
+/*Count orders per customer, including customers with none */
+SELECT c.customer_id, c.name, COUNT(o.order_id) AS order_count
+FROM customer c
+LEFT JOIN orders o ON o.customer_id = c.customer_id
+GROUP BY c.customer_id, c.name;
+
+/*Find the second-highest salary in each department*/
+SELECT department_id, salary
+FROM (
+    SELECT department_id,
+           salary,
+           DENSE_RANK() OVER (
+               PARTITION BY department_id
+               ORDER BY salary DESC
+           ) AS salary_rank
+    FROM employees
+) ranked
+WHERE salary_rank = 2;
