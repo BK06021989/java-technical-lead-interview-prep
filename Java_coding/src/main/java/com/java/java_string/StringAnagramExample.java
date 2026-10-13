@@ -3,19 +3,7 @@ package com.java.java_string;
 import java.util.Arrays;
 
 public class StringAnagramExample {
-	public static void main(String[] args) {
-		String str1 = "listen";
-		String str2 = "silent";
-
-		boolean result = isAnagram(str1, str2);
-		System.out.println(str1 + " and " + str2 + " are anagrams? " + result);// true
-
-		// Another example
-		System.out.println("triangle and integral are anagrams? " + isAnagram("triangle", "integral"));// true
-		System.out.println("apple and paple are anagrams? " + isAnagram("apple", "papled"));// false
-	}
-
-	public static boolean isAnagram(String s1, String s2) {
+	public static boolean isAagram(String s1, String s2) {
 		if (s1.length() != s2.length())
 			return false;
 
@@ -26,5 +14,11 @@ public class StringAnagramExample {
 		Arrays.sort(arr2);
 
 		return Arrays.equals(arr1, arr2);
+	}
+
+	public static void main(String[] args) {
+		String str1 = "listen";
+		String str2 = "silent";
+		System.out.println(str1 + " and " + str2 + " is anagram: " + isAagram(str1, str2));
 	}
 }
