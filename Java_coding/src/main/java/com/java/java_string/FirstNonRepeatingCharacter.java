@@ -15,7 +15,7 @@ public class FirstNonRepeatingCharacter {
 		String str="swiss";
 		char chr=str.chars().mapToObj(c->(char)c).collect(Collectors.groupingBy(c->c,LinkedHashMap::new,Collectors.counting()))
 		.entrySet().stream().filter(v->v.getValue()==1).map(Map.Entry::getKey).findFirst().orElse(null);
-		System.out.println(chr);
+		System.out.println(str+"=>"+chr);
 		
 		List<String> words = new ArrayList<>(Arrays.asList("swiss", "level", "alphabet", "aabb"));
 		for(String word:words) {
