@@ -24,10 +24,10 @@ public class AnagramGroupExample {
 
 	}
 	public static void main(String[] args) {
-
+		//System.out.println(AnagramGroup(input));
+				//output {aet=[aet, aet, aet], abt=[abt], ant=[ant, ant]}
+				
 		String[] input = { "eat", "tea", "tan", "ate", "nat", "bat" };
-		System.out.println(AnagramGroup(input));
-		//output {aet=[aet, aet, aet], abt=[abt], ant=[ant, ant]}
 		
 		Map<String, List<String>> map = new HashMap<>();
 
@@ -38,7 +38,11 @@ public class AnagramGroupExample {
 
 			String key = new String(chars);
 
-			map.computeIfAbsent(key, k -> new ArrayList<>()).add(word);
+			//map.computeIfAbsent(key, k -> new ArrayList<>()).add(word);
+			if (!map.containsKey(key)) {
+			    map.put(key, new ArrayList<>());
+			}
+			map.get(key).add(word);
 		}
 		System.out.println(new ArrayList<>(map.values()));
 		// output=[[eat, tea, ate], [bat], [tan, nat]]
