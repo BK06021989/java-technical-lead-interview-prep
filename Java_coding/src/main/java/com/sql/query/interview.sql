@@ -49,3 +49,62 @@ FROM (
     FROM employees
 ) ranked
 WHERE salary_rank = 2;
+
+/**SQL
+payments
+--------
+payment_id
+customer_id
+amount
+status
+created_at
+ 
+accounting
+----------
+payment_id
+accounting_status
+accounted_at */
+
+/*Successful Payments Without Accounting Records */
+SELECT 
+    p.payment_id,
+    p.customer_id,
+    p.amount,
+    p.status,
+    p.created_at
+FROM payments p
+WHERE p.status = 'success'
+  AND NOT EXISTS (
+      SELECT 1
+      FROM accounting a
+      WHERE a.payment_id = p.payment_id
+        AND a.accounting_status = 'success'
+  );
+/*Highest Successful Unaccounted Payment Per Customer */
+
+WITH unaccounted_payments AS (
+    SELECT 
+        p.payment_id,
+        p.customer_id,
+        p.amount,
+        p.created_at,
+        ROW_NUMBER() OVER (
+            PARTITION BY p.customer_id 
+            ORDER BY p.amount DESC, p.created_at DESC
+        ) AS rn
+    FROM payments p
+    WHERE p.status = 'success'
+      AND NOT EXISTS (
+          SELECT 1
+          FROM accounting a
+          WHERE a.payment_id = p.payment_id
+            AND a.accounting_status = 'success'
+      )
+)
+SELECT 
+    customer_id,
+    payment_id,
+    amount AS highest_unaccounted_amount,
+    created_at
+FROM unaccounted_payments
+WHERE rn = 1;
